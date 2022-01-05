@@ -24,6 +24,23 @@
         height: 60rem;
         padding-top: 15rem;
     }
+    img.slider-img{
+        height: 40rem !important;
+    }
+    .custom-product{
+        height: 65rem;
+        padding-top: 2rem;
+    }
+    .trending-image{
+        height: 10rem;
+    }
+    .trending-item{
+        float: left;
+        width: 20%;
+    }
+    .trending-wrapper{
+        margin: 5rem;
+    }
 </style>
 
 </html>
