@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,11 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/login', function () {
     return view('login');
+});
+
+Route::get('/logout', function () {
+    Session::forget('user');
+    return redirect('login');
 });
 
 Route::post('/login', [UserController::class, 'login']);
