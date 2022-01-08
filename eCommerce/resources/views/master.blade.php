@@ -8,6 +8,7 @@
     <title>E-commerce project</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -20,28 +21,34 @@
 </body>
 
 <style>
-    .custom-login{
+    .custom-login {
         height: 60rem;
         padding-top: 15rem;
     }
-    img.slider-img{
+
+    img.slider-img {
         height: 40rem !important;
     }
-    .custom-product{
+
+    .custom-product {
         height: 65rem;
         padding-top: 2rem;
     }
-    .trending-image{
+
+    .trending-image {
         height: 10rem;
     }
-    .trending-item{
+
+    .trending-item {
         float: left;
         width: 20%;
     }
-    .trending-wrapper{
+
+    .trending-wrapper {
         margin: 5rem;
     }
-    .detail-image{
+
+    .detail-image {
         height: 25rem;
     }
 </style>

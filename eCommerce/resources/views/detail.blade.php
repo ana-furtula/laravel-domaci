@@ -1,6 +1,6 @@
 @extends('master')
 @section('content')
-<div class="container">
+<div class="container" style="height: 60rem;">
     <div class="row">
         <a href="/">
             <h4>Go back</h4>
@@ -19,10 +19,13 @@
             <form action="/add_to_cart" method="POST">
                 @csrf
                 <input type="hidden" name="product_id" value="{{$product['id']}}">
+                <input type="hidden" name="product_price" value="{{$product['price']}}">
+                <h4>
+                    <label for="quantity">Quantity: </label>
+                    <input type="number" id="quantity" name="quantity" min="1">
+                </h4>
                 <button class="btn btn-primary">Add to Cart</button>
             </form>
-            <br>
-            <button class="btn btn-success">Buy Now</button>
             <br><br>
         </div>
     </div>

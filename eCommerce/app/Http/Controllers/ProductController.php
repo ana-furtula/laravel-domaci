@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\CartItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
@@ -25,7 +26,7 @@ class ProductController extends Controller
     function addToCart(Request $req)
     {
         if ($req->session()->has('user')) {
-            $cart = Cart::where('user_id',$req->session()->get('user')['id'])->first();
+            $cart = Cart::where('user_id', $req->session()->get('user')['id'])->first();
             if (!$cart) {
                 $cart = new Cart();
                 $cart->user_id = $req->session()->get('user')['id'];
@@ -34,8 +35,8 @@ class ProductController extends Controller
             $cartItem = new CartItem();
             $cartItem->cart_id = $cart->id;
             $cartItem->product_id = $req->product_id;
-            $cartItem->price = $req->product_price;
-            $cartItem->amount = 1;
+            $cartItem->amount = $req->input('quantity') === null ? 1 : $req->input('quantity');
+            $cartItem->price = $req->product_price * $cartItem->amount;
             $cartItem->save();
             return redirect('/');
         } else {
@@ -47,9 +48,67 @@ class ProductController extends Controller
     {
         $userId = Session::get('user')['id'];
         $cart = Cart::where('user_id', $userId)->first();
-        if(!$cart){
+        if (!$cart) {
             return 0;
-        } 
+        }
         return CartItem::where('cart_id', $cart->id)->count();
+    }
+
+    function cartList()
+    {
+        $user = Session::get('user');
+        if (!$user) {
+            return redirect('/login');
+        }
+        $cart = Cart::where('user_id', $user->id)->first();
+        if (!$cart) {
+            return redirect('/');
+        }
+        $items = CartItem::where('cart_id', $cart->id)->get();
+        if (!$items) {
+            return redirect('/');
+        }
+        //dd($items);
+        return view('cartlist', ['products' => $items]);
+    }
+
+    function removeFromCart($id)
+    {
+        CartItem::destroy($id);
+        return redirect('cartlist');
+    }
+
+    function amountIncrease($id)
+    {
+        $item = CartItem::find($id);
+        $item->amount = $item->amount + 1;
+        $item->price = $item->price + $item->product->price;
+        $item->save();
+        return redirect('cartlist');
+    }
+
+    function amountDecrease($id)
+    {
+        $item = CartItem::find($id);
+        if ($item->amount == 1) {
+            CartItem::destroy($id);
+        } else {
+            $item->amount = $item->amount - 1;
+            $item->price = $item->price - $item->product->price;
+            $item->save();
+        }
+        return redirect('cartlist');
+    }
+
+    function orderNow()
+    {
+        $user = Session::get('user');
+        $cart = Cart::where('user_id', $user->id)->first();
+        $items = CartItem::where('cart_id', $cart->id)->get();
+        foreach($items as $item){
+            $item->delete();
+        }
+
+        return view('cartlist', ['products' => null,'info' => "You have successfully ordered chosen products."]);
     }
 }

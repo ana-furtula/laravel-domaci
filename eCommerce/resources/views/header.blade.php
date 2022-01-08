@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Session;
 
 $total = 0;
 if (Session::has('user')) {
-    $total = ProductController::cartItem();
+    $total = ProductController::cartItemsNumber();
 }
 ?>
 <nav class="navbar navbar-default">
@@ -18,7 +18,7 @@ if (Session::has('user')) {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Home</a>
+            <a class="navbar-brand" href="/">Home</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -33,7 +33,7 @@ if (Session::has('user')) {
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Cart({{$total}})</a></li>
+                <li><a href="/cartlist">Cart({{$total}})</a></li>
                 @if(Session::has('user'))
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{Session::get('user')['username']}}
