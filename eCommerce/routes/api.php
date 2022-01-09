@@ -24,6 +24,9 @@ Route::post('/register',[AuthController::class,'register']);
 
 Route::post('/login',[AuthController::class,'login']);
 
+Route::get('/products',[ProductController::class, 'getAll']);
+
+
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
  
@@ -31,45 +34,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
 
-    Route::resource('products',ProductController::class)->only('store', 'destroy');
+    Route::resource('products',ProductController::class)->only('store', 'destroy', 'update');
 
     Route::post('/logout',[AuthController::class, 'logout']);
 
-//     Route::get('/products', function (Request $request) {
-//         $products = \App\Models\Product::all();
-//         return $products->toJson(JSON_PRETTY_PRINT);
-//     });
 });
-
-Route::resource('products',ProductController::class)->only('index');
-
-// Route::get('/products', function (Request $request) {
-//     $products = \App\Models\Product::all();
-//     return $products->toJson(JSON_PRETTY_PRINT);
-// });
-
-// Route::post('/products', function (Request $request) {
-//     $product = new \App\Models\Product();
-//     $product->name = $request['name'];
-//     $product->price = $request['price'];
-//     $product->category = $request['category'];
-//     $product->description = $request['description'];
-//     $product->gallery = $request['gallery'];
-//     $product->save();
-
-//     return $product->toJson(JSON_PRETTY_PRINT);
-// });
-
-// Route::get('/products/{id}', function (Request $request, $id) {
-//     $product = \App\Models\Product::find($id);
-//     return $product->toJson(JSON_PRETTY_PRINT);
-// });
-
-// Route::delete('/products/delete/{id}', function ($id) {
-//     $product = \App\Models\Product::find($id);
-//     $product->delete();
-
-//     $response = (object)['Message' => 'Obrisano', 'Value' => $product];
-
-//     return json_encode($response);
-// });

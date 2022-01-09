@@ -36,10 +36,40 @@ class ProductController extends Controller
         return response()->json(['Product is created successfully.', $product]);
     }
 
+    public function update(Request $req, Product $product)
+    {
+        $validator = Validator::make($req->all(), [
+            'name' => 'required|string|min:3',
+            'price' => 'required|string',
+            'category' => 'required|string',
+            'description' => 'required|string|min:5',
+            'gallery' => 'required|string'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $product->name = $req->name;
+        $product->price = $req->price;
+        $product->category = $req->category;
+        $product->description = $req->description;
+        $product->gallery = $req->gallery;
+
+        $product->save();
+
+        return response()->json(['Product is updated successfully.', $product]);
+    }
+
     public function destroy(Product $product)
     {
         $product->delete();
         return response()->json('Product deleted successfully');
+    }
+
+    public function getAll()
+    {
+        $products = Product::all();
+        return response()->json($products);
     }
 
     function index()
