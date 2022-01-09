@@ -8,9 +8,40 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+
+    public function store(Request $req)
+    {
+        $validator = Validator::make($req->all(), [
+            'name' => 'required|string|min:3',
+            'price' => 'required|string',
+            'category' => 'required|string',
+            'description' => 'required|string|min:5',
+            'gallery' => 'required|string'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $product = Product::create([
+            'name' => $req->name,
+            'price' => $req->price,
+            'category' => $req->category,
+            'description' => $req->description,
+            'gallery' => $req->gallery,
+        ]);
+        return response()->json(['Product is created successfully.', $product]);
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return response()->json('Product deleted successfully');
+    }
+
     function index()
     {
         $data = Product::all();
@@ -105,10 +136,10 @@ class ProductController extends Controller
         $user = Session::get('user');
         $cart = Cart::where('user_id', $user->id)->first();
         $items = CartItem::where('cart_id', $cart->id)->get();
-        foreach($items as $item){
+        foreach ($items as $item) {
             $item->delete();
         }
 
-        return view('cartlist', ['products' => null,'info' => "You have successfully ordered chosen products."]);
+        return view('cartlist', ['products' => null, 'info' => "You have successfully ordered chosen products."]);
     }
 }

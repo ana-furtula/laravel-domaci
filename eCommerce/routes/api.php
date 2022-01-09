@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,40 +20,56 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::post('/register',[AuthController::class,'register']);
+
+Route::post('/login',[AuthController::class,'login']);
+
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/products', function (Request $request) {
-        $products = \App\Models\Product::all();
-        return $products->toJson(JSON_PRETTY_PRINT);
+ 
+    Route::get('/profile', function (Request $request) {
+        return auth()->user();
     });
+
+    Route::resource('products',ProductController::class)->only('store', 'destroy');
+
+    Route::post('/logout',[AuthController::class, 'logout']);
+
+//     Route::get('/products', function (Request $request) {
+//         $products = \App\Models\Product::all();
+//         return $products->toJson(JSON_PRETTY_PRINT);
+//     });
 });
+
+Route::resource('products',ProductController::class)->only('index');
 
 // Route::get('/products', function (Request $request) {
 //     $products = \App\Models\Product::all();
 //     return $products->toJson(JSON_PRETTY_PRINT);
 // });
 
-Route::post('/products', function (Request $request) {
-    $product = new \App\Models\Product();
-    $product->name = $request['name'];
-    $product->price = $request['price'];
-    $product->category = $request['category'];
-    $product->description = $request['description'];
-    $product->gallery = $request['gallery'];
-    $product->save();
+// Route::post('/products', function (Request $request) {
+//     $product = new \App\Models\Product();
+//     $product->name = $request['name'];
+//     $product->price = $request['price'];
+//     $product->category = $request['category'];
+//     $product->description = $request['description'];
+//     $product->gallery = $request['gallery'];
+//     $product->save();
 
-    return $product->toJson(JSON_PRETTY_PRINT);
-});
+//     return $product->toJson(JSON_PRETTY_PRINT);
+// });
 
-Route::get('/products/{id}', function (Request $request, $id) {
-    $product = \App\Models\Product::find($id);
-    return $product->toJson(JSON_PRETTY_PRINT);
-});
+// Route::get('/products/{id}', function (Request $request, $id) {
+//     $product = \App\Models\Product::find($id);
+//     return $product->toJson(JSON_PRETTY_PRINT);
+// });
 
-Route::delete('/products/delete/{id}', function ($id) {
-    $product = \App\Models\Product::find($id);
-    $product->delete();
+// Route::delete('/products/delete/{id}', function ($id) {
+//     $product = \App\Models\Product::find($id);
+//     $product->delete();
 
-    $response = (object)['Message' => 'Obrisano', 'Value' => $product];
+//     $response = (object)['Message' => 'Obrisano', 'Value' => $product];
 
-    return json_encode($response);
-});
+//     return json_encode($response);
+// });
