@@ -1,12 +1,11 @@
 @extends('master')
 @section('content')
-@if(isset($info))
+@if(Session::has('message'))
 <div class="row">
-    <div class="col-md-12">
-        <p class="alert alert-info">{{ $info }}</p>
-    </div>
-</div>
-@endif
+  <div class="col-md-12">
+    <p class="myInfo alert alert-danger">{{ Session::get('message') }}</p>
+  </div>
+  @endif
 <section class="vh-100" style="background-color: #eee;">
     <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">

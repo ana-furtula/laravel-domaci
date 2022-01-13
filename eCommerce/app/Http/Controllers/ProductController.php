@@ -169,7 +169,7 @@ class ProductController extends Controller
         foreach ($items as $item) {
             $item->delete();
         }
-
-        return view('cartlist', ['products' => null, 'info' => "You have successfully ordered chosen products."]);
+        Session::now('message', 'You have successfully ordered chosen products.');
+        return view('cartlist', ['products' => null]);
     }
 }
