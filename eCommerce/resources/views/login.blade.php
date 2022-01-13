@@ -15,6 +15,12 @@
                     <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
+                <div>
+                    <br>
+                    <small id="emailHelp" class="form-text text-muted">OR</small>
+                    <a href="/register">SIGN UP</a>
+
+                </div>
             </form>
         </div>
     </div>
